@@ -1,7 +1,6 @@
 package qihang.smart.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import qihang.smart.entity.Illness;
 import qihang.smart.mapper.*;
 import qihang.smart.service.IService;
 
@@ -26,6 +25,9 @@ public abstract class BaseService<T> implements IService<T> {
 
     @Autowired
     protected IllnessMedicineMapper illnessMedicineMapper;
+
+    @Autowired
+    protected PageViewMapper pageViewMapper;
 
 
 }

@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RestController;
 import qihang.smart.entity.IllnessKind;
 
 /**
- * @description: TODO
+ * @description: 疾病类型控制类
  * @author: zhqihang
  * @date: 2024/07/17
  */
