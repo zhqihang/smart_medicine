@@ -1,8 +1,11 @@
-package qihang.smart.service;
+package qihang.smart.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import qihang.smart.entity.Illness;
+import qihang.smart.mapper.IllnessMapper;
 import qihang.smart.mapper.MedicineMapper;
 import qihang.smart.mapper.UserMapper;
+import qihang.smart.service.IService;
 
 /**
  * @description: 基础服务类
@@ -16,4 +19,9 @@ public abstract class BaseService<T> implements IService<T> {
 
     @Autowired
     protected MedicineMapper medicineMapper;
+
+    @Autowired
+    protected IllnessMapper illnessMapper;
+
+
 }

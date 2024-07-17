@@ -3,7 +3,6 @@ package qihang.smart.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.stereotype.Service;
 import qihang.smart.entity.User;
-import qihang.smart.service.BaseService;
 import qihang.smart.utils.BeanUtil;
 
 import java.io.Serializable;

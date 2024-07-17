@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import qihang.smart.component.EmailClient;
 import qihang.smart.dto.RespResult;
 import qihang.smart.entity.User;
-import qihang.smart.service.*;
+import qihang.smart.service.impl.BaseService;
 import qihang.smart.service.impl.UserService;
 
 import javax.servlet.http.HttpServletRequest;
