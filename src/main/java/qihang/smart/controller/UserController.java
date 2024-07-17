@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import qihang.smart.dto.RespResult;
 import qihang.smart.entity.User;
-import qihang.smart.service.BaseSevice;
 import qihang.smart.service.impl.UserService;
 
 /**

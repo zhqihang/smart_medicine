@@ -3,7 +3,7 @@ package qihang.smart.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.stereotype.Service;
 import qihang.smart.entity.User;
-import qihang.smart.service.BaseSevice;
+import qihang.smart.service.BaseService;
 import qihang.smart.utils.BeanUtil;
 
 import java.io.Serializable;
@@ -19,7 +19,7 @@ import static qihang.smart.utils.VariableNameUtils.humpToLine;
  */
 
 @Service
-public class UserService extends BaseSevice<User>{
+public class UserService extends BaseService<User> {
 
     @Override
     public User save(User user) {
