@@ -1,8 +1,6 @@
 package qihang.smart.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.toolkit.Assert;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import qihang.smart.entity.IllnessMedicine;
 import qihang.smart.utils.BeanUtil;

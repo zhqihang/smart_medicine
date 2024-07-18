@@ -6,7 +6,6 @@ import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.stereotype.Service;
 import qihang.smart.entity.*;
-import qihang.smart.mapper.PageViewMapper;
 import qihang.smart.utils.BeanUtil;
 import qihang.smart.utils.VariableNameUtils;
 

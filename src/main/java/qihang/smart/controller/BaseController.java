@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import qihang.smart.component.EmailClient;
 import qihang.smart.dto.RespResult;
 import qihang.smart.entity.User;
+import qihang.smart.service.impl.ApiService;
 import qihang.smart.service.impl.BaseService;
 import qihang.smart.service.impl.UserService;
 
@@ -28,15 +29,15 @@ public class BaseController<T> {
     protected UserService userService;
 
     @Autowired
+    protected ApiService apiService;
+
+    @Autowired
     protected EmailClient emailClient;
 
     protected HttpServletRequest request;
     protected HttpServletResponse response;
     protected HttpSession session;
     protected User loginUser;
-
-
-
 
     /**
      * 保存、修改

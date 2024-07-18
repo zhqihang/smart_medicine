@@ -29,5 +29,8 @@ public abstract class BaseService<T> implements IService<T> {
     @Autowired
     protected PageViewMapper pageViewMapper;
 
+    @Autowired
+    protected MedicalNewsMapper medicalNewsMapper;
+
 
 }
