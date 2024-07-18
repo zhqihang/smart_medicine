@@ -5,11 +5,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import qihang.smart.component.EmailClient;
+import qihang.smart.component.OssClient;
 import qihang.smart.dto.RespResult;
+import qihang.smart.entity.History;
 import qihang.smart.entity.User;
-import qihang.smart.service.impl.ApiService;
-import qihang.smart.service.impl.BaseService;
-import qihang.smart.service.impl.UserService;
+import qihang.smart.service.impl.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -30,6 +30,24 @@ public class BaseController<T> {
 
     @Autowired
     protected ApiService apiService;
+
+    @Autowired
+    protected IllnessService illnessService;
+
+    @Autowired
+    protected IllnessKindService illnessKindService;
+
+    @Autowired
+    protected HistoryService historyService;
+
+    @Autowired
+    protected  MedicineService medicineService;
+
+    @Autowired
+    protected  IllnessMedicineService illnessMedicineService;
+
+    @Autowired
+    protected FeedbackService feedbackService;
 
     @Autowired
     protected EmailClient emailClient;
@@ -87,6 +105,6 @@ public class BaseController<T> {
         this.response = response;
         this.session = request.getSession(true);
         loginUser = (User) session.getAttribute("loginUser");
-        // session.setAttribute("kindList", illnessKindService.findList());
+        session.setAttribute("kindList", illnessKindService.findList());
     }
 }
