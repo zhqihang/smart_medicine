@@ -1,0 +1,26 @@
+package qihang.smart.controller;
+
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import qihang.smart.dto.RespResult;
+import qihang.smart.entity.User;
+
+/**
+ * @description: 消息发送控制类
+ * @author: zhqihang
+ * @date: 2024/07/18
+ */
+@RestController
+@RequestMapping("/message")
+public class MessageController extends BaseController<User> {
+
+    /**
+     * 发送消息
+     */
+    @PostMapping("/query")
+    public RespResult query(String content) {
+        String result = apiService.query(content);
+        return RespResult.success(result);
+    }
+}
