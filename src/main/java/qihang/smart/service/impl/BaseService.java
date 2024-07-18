@@ -34,4 +34,7 @@ public abstract class BaseService<T> implements IService<T> {
 
     @Autowired
     protected HistoryMapper historyMapper;
+
+    @Autowired
+    protected FeedbackMapper feedbackMapper;
 }

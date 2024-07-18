@@ -7,12 +7,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.experimental.Accessors;
 
 import java.time.LocalDateTime;
 
 /**
- * @description: 浏览历史实体类
+ * @description: 反馈实体类
  * @author: zhqihang
  * @date: 2024/07/18
  */
@@ -20,9 +19,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Accessors(chain = true)
-@TableName("history")
-public class History {
+@TableName("feedback")
+public class Feedback {
 
     /**
      * 主键ID
@@ -31,22 +29,27 @@ public class History {
     private Integer id;
 
     /**
-     * 浏览历史关联用户id
+     * 反馈用户
      */
-    private Integer userId;
+    private String name;
 
     /**
-     * 浏览历史类型
+     * 邮箱
      */
-    private Integer operateType;
+    private String email;
 
     /**
-     * 浏览历史关键字
+     * 反馈标题
      */
-    private String keyword;
+    private String title;
 
     /**
-     * 浏览时间
+     * 反馈内容
+     */
+    private String content;
+
+    /**
+     * 创建时间
      */
     private LocalDateTime createTime;
 
