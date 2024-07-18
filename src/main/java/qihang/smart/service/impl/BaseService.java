@@ -32,5 +32,6 @@ public abstract class BaseService<T> implements IService<T> {
     @Autowired
     protected MedicalNewsMapper medicalNewsMapper;
 
-
+    @Autowired
+    protected HistoryMapper historyMapper;
 }
