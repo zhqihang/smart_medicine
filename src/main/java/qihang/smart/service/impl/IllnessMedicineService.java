@@ -3,6 +3,7 @@ package qihang.smart.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.stereotype.Service;
 import qihang.smart.entity.IllnessMedicine;
+import qihang.smart.utils.Assert;
 import qihang.smart.utils.BeanUtil;
 import qihang.smart.utils.VariableNameUtils;
 
@@ -21,10 +22,10 @@ public class IllnessMedicineService extends BaseService<IllnessMedicine> {
     @Override
     public List<IllnessMedicine> query(IllnessMedicine illnessMedicine) {
         QueryWrapper<IllnessMedicine> wrapper = new QueryWrapper();
-        if (illnessMedicine != null) {
+        if (Assert.notEmpty(illnessMedicine)) {
             Map<String, Object> bean2Map = BeanUtil.bean2Map(illnessMedicine);
             for (String key : bean2Map.keySet()) {
-                if (bean2Map.get(key) == null) {
+                if (Assert.isEmpty(bean2Map.get(key))) {
                     continue;
                 }
                 wrapper.eq(VariableNameUtils.humpToLine(key), bean2Map.get(key));
@@ -39,13 +40,13 @@ public class IllnessMedicineService extends BaseService<IllnessMedicine> {
     }
 
     @Override
-    public IllnessMedicine save(IllnessMedicine o) {
-        if (o.getId() == null) {
-            illnessMedicineMapper.insert(o);
+    public IllnessMedicine save(IllnessMedicine illnessMedicine) {
+        if (Assert.isEmpty(illnessMedicine.getId())) {
+            illnessMedicineMapper.insert(illnessMedicine);
         } else {
-            illnessMedicineMapper.updateById(o);
+            illnessMedicineMapper.updateById(illnessMedicine);
         }
-        return illnessMedicineMapper.selectById(o.getId());
+        return illnessMedicineMapper.selectById(illnessMedicine.getId());
     }
 
     @Override

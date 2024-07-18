@@ -3,6 +3,7 @@ package qihang.smart.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.stereotype.Service;
 import qihang.smart.entity.IllnessKind;
+import qihang.smart.utils.Assert;
 import qihang.smart.utils.BeanUtil;
 import qihang.smart.utils.VariableNameUtils;
 
@@ -26,10 +27,10 @@ public class IllnessKindService extends BaseService<IllnessKind> {
     @Override
     public List<IllnessKind> query(IllnessKind illnessKind) {
         QueryWrapper<IllnessKind> wrapper = new QueryWrapper();
-        if (illnessKind != null) {
+        if (Assert.notEmpty(illnessKind)) {
             Map<String, Object> bean2Map = BeanUtil.bean2Map(illnessKind);
             for (String key : bean2Map.keySet()) {
-                if (bean2Map.get(key) == null) {
+                if (Assert.isEmpty(bean2Map.get(key))) {
                     continue;
                 }
                 wrapper.eq(VariableNameUtils.humpToLine(key), bean2Map.get(key));
@@ -54,7 +55,7 @@ public class IllnessKindService extends BaseService<IllnessKind> {
      */
     @Override
     public IllnessKind save(IllnessKind illnessKind) {
-        if (illnessKind.getId() == null) {
+        if (Assert.isEmpty(illnessKind.getId())) {
             illnessKindMapper.insert(illnessKind);
         } else {
             illnessKindMapper.updateById(illnessKind);

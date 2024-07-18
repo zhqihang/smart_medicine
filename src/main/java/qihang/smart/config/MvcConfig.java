@@ -9,7 +9,7 @@ import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
- * @description: TODO
+ * @description: MVC配置类
  * @author: zhqihang
  * @date: 2024/07/18
  */

@@ -2,12 +2,13 @@ package qihang.smart.controller;
 
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.toolkit.Assert;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import qihang.smart.constant.MedicalConstants;
 import qihang.smart.entity.*;
+import qihang.smart.utils.Assert;
 
 import java.util.*;
 
@@ -32,7 +33,7 @@ public class SystemController extends BaseController<User> {
      */
     @GetMapping("/doctor")
     public String doctor(Map<String, Object> map) {
-        if (loginUser == null) {
+        if (Assert.isEmpty(loginUser)) {
             return "redirect:/index.html";
         }
         return "doctor";
@@ -52,7 +53,7 @@ public class SystemController extends BaseController<User> {
      */
     @GetMapping("/all-feedback")
     public String feedback(Map<String, Object> map) {
-        if (loginUser == null) {
+        if (Assert.isEmpty(loginUser)) {
             return "redirect:/index.html";
         }
         List<Feedback> feedbackList = feedbackService.all();
@@ -66,7 +67,7 @@ public class SystemController extends BaseController<User> {
      */
     @GetMapping("/profile")
     public String profile(Map<String, Object> map) {
-        if (loginUser == null) {
+        if (Assert.isEmpty(loginUser)) {
             return "redirect:/index.html";
         }
         return "profile";
@@ -81,16 +82,16 @@ public class SystemController extends BaseController<User> {
         page = ObjectUtils.isEmpty(page) ? 1 : page;
 
         Map<String, Object> illness = illnessService.findIllness(kind, illnessName, page);
-        if (kind != null) {
+        if (Assert.notEmpty(kind)) {
             map.put("title", illnessKindService.get(kind).getName() + (illnessName == null ? "" : ('"' + illnessName + '"' + "的搜索结果")));
         } else {
             map.put("title", illnessName == null ? "全部" : ('"' + illnessName + '"' + "的搜索结果"));
         }
         if (loginUser != null && kind != null) {
             historyService.insetOne(loginUser.getId(), MedicalConstants.TYPE_OPERATE,
-                    illnessKindService.get(kind).getId() + "," + (illnessName == null ? "无" : illnessName));
+                    illnessKindService.get(kind).getId() + "," + (Assert.isEmpty(illnessName) ? "无" : illnessName));
         }
-        if (loginUser != null && illnessName != null) {
+        if (loginUser != null && Assert.isEmpty(illnessName)) {
             historyService.insetOne(loginUser.getId(), MedicalConstants.TYPE_ILLNESS, illnessName);
         }
         map.putAll(illness);
@@ -133,7 +134,7 @@ public class SystemController extends BaseController<User> {
     public String findMedicines(Map<String, Object> map, String nameValue, Integer page) {
         // 处理page
         page = ObjectUtils.isEmpty(page) ? 1 : page;
-        if (loginUser != null && nameValue != null) {
+        if (loginUser != null && Assert.notEmpty(nameValue)) {
             historyService.insetOne(loginUser.getId(), MedicalConstants.TYPE_MEDICINE, nameValue);
         }
         map.putAll(medicineService.getMedicineList(nameValue, page));
@@ -178,11 +179,11 @@ public class SystemController extends BaseController<User> {
      */
     @GetMapping("add-illness")
     public String addIllness(Integer id, Map<String, Object> map) {
-        if (loginUser == null) {
+        if (Assert.isEmpty(loginUser)) {
             return "redirect:/index.html";
         }
         Illness illness = new Illness();
-        if (id != null) {
+        if (Assert.notEmpty(id)) {
             illness = illnessService.get(id);
         }
         List<IllnessKind> illnessKinds = illnessKindService.all();
@@ -196,16 +197,16 @@ public class SystemController extends BaseController<User> {
      */
     @GetMapping("add-medical")
     public String addMedical(Integer id, Map<String, Object> map) {
-        if (loginUser == null) {
+        if (Assert.isEmpty(loginUser)) {
             return "redirect:/index.html";
         }
         List<Illness> illnesses = illnessService.all();
         Medicine medicine = new Medicine();
-        if (id != null) {
+        if (Assert.notEmpty(id)) {
             medicine = medicineService.get(id);
             for (Illness illness : illnesses) {
                 List<IllnessMedicine> query = illnessMedicineService.query(IllnessMedicine.builder().medicineId(id).illnessId(illness.getId()).build());
-                if (query != null) {
+                if (Assert.notEmpty(query)) {
                     illness.setIllnessMedicine(query.get(0));
                 }
             }
@@ -220,7 +221,7 @@ public class SystemController extends BaseController<User> {
      */
     @GetMapping("all-illness")
     public String allIllness(Map<String, Object> map) {
-        if (loginUser == null) {
+        if (Assert.isEmpty(loginUser)) {
             return "redirect:/index.html";
         }
         List<Illness> illnesses = illnessService.all();
@@ -236,7 +237,7 @@ public class SystemController extends BaseController<User> {
      */
     @GetMapping("all-medical")
     public String allMedical(Map<String, Object> map) {
-        if (loginUser == null) {
+        if (Assert.isEmpty(loginUser)) {
             return "redirect:/index.html";
         }
         List<Medicine> medicines = medicineService.all();

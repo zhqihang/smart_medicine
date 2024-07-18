@@ -3,6 +3,7 @@ package qihang.smart.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.stereotype.Service;
 import qihang.smart.entity.Feedback;
+import qihang.smart.utils.Assert;
 import qihang.smart.utils.BeanUtil;
 import qihang.smart.utils.VariableNameUtils;
 
@@ -21,10 +22,10 @@ public class FeedbackService extends BaseService<Feedback> {
     @Override
     public List<Feedback> query(Feedback feedback) {
         QueryWrapper<Feedback> wrapper = new QueryWrapper();
-        if (feedback != null) {
+        if (Assert.notEmpty(feedback)) {
             Map<String, Object> bean2Map = BeanUtil.bean2Map(feedback);
             for (String key : bean2Map.keySet()) {
-                if (bean2Map.get(key) == null) {
+                if (Assert.isEmpty(bean2Map.get(key))) {
                     continue;
                 }
                 wrapper.eq(VariableNameUtils.humpToLine(key), bean2Map.get(key));
@@ -40,7 +41,7 @@ public class FeedbackService extends BaseService<Feedback> {
 
     @Override
     public Feedback save(Feedback feedback) {
-        if (feedback.getId() == null) {
+        if (Assert.isEmpty(feedback.getId())) {
             feedbackMapper.insert(feedback);
         } else {
             feedbackMapper.updateById(feedback);

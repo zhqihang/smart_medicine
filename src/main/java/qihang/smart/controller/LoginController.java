@@ -47,7 +47,7 @@ public class LoginController extends BaseController<User> {
         if (query != null) return RespResult.fail("账号已被注册");
 
         user.setRoleStatus(0); // 普通用户
-        user.setImgPath("https://pic.imgdb.cn/item/668508fed9c307b7e900c3c5.jpg"); // 初始默认头像链接
+        user.setImgPath("https://smart-medical-system.oss-cn-guangzhou.aliyuncs.com/%E9%BB%98%E8%AE%A4%E5%A4%B4%E5%83%8F"); // 初始默认头像链接
         user = userService.save(user);
         session.setAttribute("loginUser", user);
         return RespResult.success("注册成功", user);

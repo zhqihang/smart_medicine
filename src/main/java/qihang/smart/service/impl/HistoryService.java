@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestMapping;
 import qihang.smart.entity.History;
 import qihang.smart.entity.IllnessKind;
+import qihang.smart.utils.Assert;
 import qihang.smart.utils.BeanUtil;
 import qihang.smart.utils.VariableNameUtils;
 
@@ -22,12 +23,12 @@ import java.util.stream.Collectors;
 @RequestMapping("/history")
 public class HistoryService extends BaseService<History>{
     @Override
-    public List<History> query(History o) {
+    public List<History> query(History history) {
         QueryWrapper<History> wrapper = new QueryWrapper();
-        if (o != null) {
-            Map<String, Object> bean2Map = BeanUtil.bean2Map(o);
+        if (Assert.notEmpty(history)) {
+            Map<String, Object> bean2Map = BeanUtil.bean2Map(history);
             for (String key : bean2Map.keySet()) {
-                if (bean2Map.get(key) == null) {
+                if (Assert.isEmpty(bean2Map.get(key))) {
                     continue;
                 }
                 wrapper.eq(VariableNameUtils.humpToLine(key), bean2Map.get(key));
@@ -43,7 +44,7 @@ public class HistoryService extends BaseService<History>{
 
     @Override
     public History save(History history) {
-        if (history.getId() == null) {
+        if (Assert.isEmpty(history.getId())) {
             historyMapper.insert(history);
         } else {
             historyMapper.updateById(history);

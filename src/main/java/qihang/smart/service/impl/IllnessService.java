@@ -6,6 +6,7 @@ import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.stereotype.Service;
 import qihang.smart.entity.*;
+import qihang.smart.utils.Assert;
 import qihang.smart.utils.BeanUtil;
 import qihang.smart.utils.VariableNameUtils;
 
@@ -31,7 +32,7 @@ public class IllnessService extends BaseService<Illness> {
      */
     @Override
     public Illness save(Illness illness) {
-        if (illness.getId() == null) {
+        if (Assert.isEmpty(illness.getId())) {
             illnessMapper.insert(illness);
         } else {
             illnessMapper.updateById(illness);
@@ -70,10 +71,10 @@ public class IllnessService extends BaseService<Illness> {
     @Override
     public List<Illness> query(Illness illness) {
         QueryWrapper<Illness> wrapper = new QueryWrapper<>();
-        if (illness != null) {
+        if (Assert.notEmpty(illness)) {
             Map<String, Object> bean2Map = BeanUtil.bean2Map(illness);
             for (String key : bean2Map.keySet()) {
-                if (bean2Map.get(key) == null) continue;
+                if (Assert.isEmpty(bean2Map.get(key))) continue;
                 wrapper.eq(VariableNameUtils.humpToLine(key), bean2Map.get(key));
             }
         }
@@ -102,7 +103,7 @@ public class IllnessService extends BaseService<Illness> {
 
         HashMap<String, Object> map = new HashMap<>();
         QueryWrapper<Illness> wrapper = new QueryWrapper<>();
-        if (illnessName != null) {
+        if (Assert.notEmpty(illnessName)) {
             wrapper.like("illness_name", illnessName)
                     .or()
                     .like("include_reason", illnessName)
@@ -111,7 +112,7 @@ public class IllnessService extends BaseService<Illness> {
                     .or()
                     .like("special_symptom", illnessName);
         }
-        if (kind != null) {
+        if (Assert.notEmpty(kind)) {
             if (illnessName != null) {
                 wrapper.last("and (kind_id = " + kind +
                         ") order by create_time desc limit " + (page - 1) * 9 + "," + page * 9);
@@ -134,9 +135,9 @@ public class IllnessService extends BaseService<Illness> {
             l.put("create_name", MapUtil.getDate(l, "create_time"));
             l.put("pageview", pageInfo == null ? 0 : pageInfo.getPageviews());
             Integer kindId = MapUtil.getInt(l, "kind_id");
-            if (kindId != null) {
+            if (Assert.notEmpty(kindId)) {
                 IllnessKind illnessKind = illnessKindMapper.selectById(kindId);
-                if (illnessKind != null) {
+                if (Assert.notEmpty(illnessKind)) {
                     l.put("kindName", illnessKind.getName());
                 }
             }
@@ -157,7 +158,7 @@ public class IllnessService extends BaseService<Illness> {
         List<Medicine> list = new ArrayList<>(4);
         Map<String, Object> map = new HashMap<>(4);
         Pageview illness_id = pageViewMapper.selectOne(new QueryWrapper<Pageview>().eq("illness_id", id));
-        if (illness_id == null) {
+        if (Assert.isEmpty(illness_id)) {
             illness_id = new Pageview();
             illness_id.setIllnessId(id);
             illness_id.setPageviews(1);

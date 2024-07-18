@@ -3,6 +3,7 @@ package qihang.smart.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.stereotype.Service;
 import qihang.smart.entity.User;
+import qihang.smart.utils.Assert;
 import qihang.smart.utils.BeanUtil;
 
 import java.io.Serializable;
@@ -22,7 +23,7 @@ public class UserService extends BaseService<User> {
 
     @Override
     public User save(User user) {
-        if (user.getId() == null) {
+        if (Assert.isEmpty(user.getId())) {
             userMapper.insert(user);
         } else {
             userMapper.updateById(user);
@@ -43,10 +44,10 @@ public class UserService extends BaseService<User> {
     @Override
     public List<User> query(User user) {
         QueryWrapper<User> wrapper = new QueryWrapper<>();
-        if (user != null) {
+        if (Assert.notEmpty(user)) {
             Map<String, Object> bean2Map = BeanUtil.bean2Map(user);
             for (String key : bean2Map.keySet()) {
-                if (bean2Map.get(key) == null) {
+                if (Assert.isEmpty(bean2Map.get(key))) {
                     continue;
                 }
                 wrapper.eq(humpToLine(key), bean2Map.get(key));
