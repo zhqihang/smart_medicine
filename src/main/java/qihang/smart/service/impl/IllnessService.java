@@ -113,17 +113,17 @@ public class IllnessService extends BaseService<Illness> {
                     .like("special_symptom", illnessName);
         }
         if (Assert.notEmpty(kind)) {
-            if (illnessName != null) {
+            if (Assert.notEmpty(illnessName)) {
                 wrapper.last("and (kind_id = " + kind +
                         ") order by create_time desc limit " + (page - 1) * 9 + "," + page * 9);
             } else {
                 wrapper.eq("kind_id", kind);
                 wrapper.orderByDesc("create_time");
-                wrapper.last("limit" + (page - 1) * 9 + "," + page * 9);
+                wrapper.last("limit " + (page - 1) * 9 + "," + page * 9);
             }
         } else {
             wrapper.orderByDesc("create_time");
-            wrapper.last("limit" + (page - 1) * 9 + "," + page * 9);
+            wrapper.last("limit " + (page - 1) * 9 + "," + page * 9);
         }
 
         int size = illnessMapper.selectMaps(wrapper).size();
@@ -132,7 +132,7 @@ public class IllnessService extends BaseService<Illness> {
             Integer id = MapUtil.getInt(l, "id");
             Pageview pageInfo = pageViewMapper.selectOne(new QueryWrapper<Pageview>().eq("illness_id", id));
             l.put("kindName", "暂无归属类");
-            l.put("create_name", MapUtil.getDate(l, "create_time"));
+            l.put("create_time", MapUtil.getDate(l, "create_time"));
             l.put("pageview", pageInfo == null ? 0 : pageInfo.getPageviews());
             Integer kindId = MapUtil.getInt(l, "kind_id");
             if (Assert.notEmpty(kindId)) {

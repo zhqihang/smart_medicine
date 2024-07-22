@@ -8,7 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * @description: 疾病实体类
@@ -18,8 +18,8 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName("illness")
 @Builder
+@TableName("illness")
 public class Illness {
     /**
      * 主键ID
@@ -36,11 +36,6 @@ public class Illness {
      * 疾病的名字
      */
     private String illnessName;
-
-    /**
-     * 发病季节
-     */
-    private String illnessTime;
 
     /**
      * 引起的原因
@@ -60,12 +55,12 @@ public class Illness {
     /**
      * 创建时间
      */
-    private LocalDateTime createTime;
+    private Date createTime;
 
     /**
      * 更新时间
      */
-    private LocalDateTime updateTime;
+    private Date updateTime;
 
     @TableField(exist = false)
     private IllnessKind kind;

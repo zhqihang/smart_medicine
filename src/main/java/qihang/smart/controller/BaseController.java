@@ -5,11 +5,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import qihang.smart.component.EmailClient;
-import qihang.smart.component.OssClient;
 import qihang.smart.dto.RespResult;
-import qihang.smart.entity.History;
 import qihang.smart.entity.User;
 import qihang.smart.service.impl.*;
+import qihang.smart.utils.Assert;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -22,7 +21,7 @@ import javax.servlet.http.HttpSession;
  */
 public class BaseController<T> {
 
-    @Autowired(required = false)
+    @Autowired
     protected BaseService<T> service;
 
     @Autowired
@@ -66,7 +65,7 @@ public class BaseController<T> {
     @ResponseBody
     @PostMapping("save")
     public RespResult save(T obj) {
-        if (obj == null) {
+        if (Assert.isEmpty(obj)) {
             return RespResult.fail("保存对象不能为空");
         }
         obj = service.save(obj);
@@ -82,12 +81,12 @@ public class BaseController<T> {
     @ResponseBody
     @PostMapping("/delete")
     public RespResult delete(Integer id) {
-        if (id == null) {
+        if (Assert.isEmpty(id)) {
             return RespResult.fail("删除ID不能为空");
         }
         if (service.delete(id) == 0) {
             T t = service.get(id);
-            if (t == null) {
+            if (Assert.isEmpty(t)) {
                 return RespResult.notFound("数据不存在");
             }
             return RespResult.fail("删除失败");

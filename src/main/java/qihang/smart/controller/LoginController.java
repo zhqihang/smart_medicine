@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import qihang.smart.dto.RespResult;
 import qihang.smart.entity.User;
+import qihang.smart.utils.Assert;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -21,6 +22,9 @@ import java.util.Map;
 @RequestMapping("login")
 public class LoginController extends BaseController<User> {
 
+    // 默认头像链接
+    private final String DEFAULT_URL = "https://smart-medical-system.oss-cn-guangzhou.aliyuncs.com/%E9%BB%98%E8%AE%A4%E5%A4%B4%E5%83%8F";
+
     /**
      * 用户注册
      *
@@ -28,7 +32,7 @@ public class LoginController extends BaseController<User> {
     @PostMapping("/register")
     public RespResult register(User user, String code) {
         String email = user.getUserEmail();
-        if (email == null) return RespResult.fail("邮箱不能为空");
+        if (Assert.isEmpty(email)) return RespResult.fail("邮箱不能为空");
         Map<String, Object> codeData = (Map<String, Object>) session.getAttribute("EMAIL_CODE" + email);
         if (codeData == null) return RespResult.fail("尚未发送验证码");
         String sentCode = (String) codeData.get("code");
@@ -36,7 +40,7 @@ public class LoginController extends BaseController<User> {
         calendar.setTime((Date) codeData.get("time"));
         calendar.add(Calendar.MINUTE, 5);
         if (System.currentTimeMillis() > calendar.getTime().getTime()) {
-            // session.removeAttribute("EMAIL_CODE" + email);
+            session.removeAttribute("EMAIL_CODE" + email);
             return RespResult.fail("验证码过期");
         }
         if (!sentCode.equals(code))
@@ -44,10 +48,10 @@ public class LoginController extends BaseController<User> {
 
         // 根据用户账号查询
         List<User> query = userService.query(User.builder().userAccount(user.getUserAccount()).build());
-        if (query != null) return RespResult.fail("账号已被注册");
+        if (Assert.notEmpty(query)) return RespResult.fail("账号已被注册");
 
         user.setRoleStatus(0); // 普通用户
-        user.setImgPath("https://smart-medical-system.oss-cn-guangzhou.aliyuncs.com/%E9%BB%98%E8%AE%A4%E5%A4%B4%E5%83%8F"); // 初始默认头像链接
+        user.setImgPath(DEFAULT_URL); // 初始默认头像链接
         user = userService.save(user);
         session.setAttribute("loginUser", user);
         return RespResult.success("注册成功", user);
@@ -60,11 +64,11 @@ public class LoginController extends BaseController<User> {
     @PostMapping("/login")
     public RespResult login(User user) {
         List<User> users = userService.query(user);
-        if (users != null && users.size() != 0) {
+        if (Assert.notEmpty(users)) {
             session.setAttribute("loginUser", users.get(0));
             return RespResult.success("登录成功");
         }
-        if (userService.query(User.builder().userAccount(user.getUserAccount()).build()) == null)
+        if (Assert.isEmpty(userService.query(User.builder().userAccount(user.getUserAccount()).build())))
             return RespResult.fail("账户未注册");
         return RespResult.fail("密码错误");
     }

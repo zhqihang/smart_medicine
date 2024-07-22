@@ -91,7 +91,7 @@ public class SystemController extends BaseController<User> {
             historyService.insetOne(loginUser.getId(), MedicalConstants.TYPE_OPERATE,
                     illnessKindService.get(kind).getId() + "," + (Assert.isEmpty(illnessName) ? "无" : illnessName));
         }
-        if (loginUser != null && Assert.isEmpty(illnessName)) {
+        if (loginUser != null && Assert.notEmpty(illnessName)) {
             historyService.insetOne(loginUser.getId(), MedicalConstants.TYPE_ILLNESS, illnessName);
         }
         map.putAll(illness);

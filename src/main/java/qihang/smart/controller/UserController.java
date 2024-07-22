@@ -31,6 +31,7 @@ public class UserController extends BaseController<User> {
         if (user == null) return RespResult.fail("保存对应不能为空");
         // 保存用户
         user = userService.save(user);
+        session.setAttribute("loginUser", user);
         return RespResult.success("保存成功");
     }
 
